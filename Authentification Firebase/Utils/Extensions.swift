@@ -94,10 +94,15 @@ extension UIView {
         anchor(top: superviewTopAnchor, left: superviewLeadingAnchor,
                bottom: superviewBottomAnchor, right: superviewTrailingAnchor)
     }
-    
+
+}
+
+extension UIViewController
+{
     func textContainerview(view: UIView, _ image: UIImage, _ textfield: UITextField) -> UIView
     {
         let imageView = UIImageView()
+        
         imageView.image = image
         imageView.alpha = 0.87
         view.addSubview(imageView)
@@ -106,7 +111,7 @@ extension UIView {
         imageView.heightAnchor.constraint(equalToConstant: 24).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
         
-        
+       
         view.addSubview(textfield)
         textfield.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 12).isActive = true
         textfield.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8).isActive = true
@@ -116,16 +121,17 @@ extension UIView {
         //MARK: separator
         
         let separatorView = UIView()
+       
         view.addSubview(separatorView)
         separatorView.backgroundColor = .init(white: 1, alpha: 0.87)
         separatorView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         separatorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
         separatorView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 0.75).isActive = true
+        
         return view
+        
     }
-    
-   
 }
 
 extension UIColor
