@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginController : UIViewController
 {
@@ -199,7 +200,28 @@ class LoginController : UIViewController
     
     @objc func loginnow()
     {
-        
+        if let username = usernamatextfield.text, let password = passwordTextfield.text
+        {
+            AuthentificationSignIn.system.signInUser(username: username, password: password) { (Result, error) in
+                if let error = error
+                {
+                    self.alertmessage(title: "Error Login", message: "There was an error while logging In \(error.localizedDescription)", buttonname: "OK") { (methode) in
+                        print("Error login Message sent")
+                    }
+                }else
+                {
+                    print("you have logged in successfully")
+                    let createAccount = HomeController()
+                    self.navigationController?.pushViewController(createAccount, animated: true)
+                    
+                }
+            }
+        }else
+        {
+            alertmessage(title: "Empty fields", message: "Please Make sure that you have filled everysection correctly", buttonname: "OK") { (methode) in
+                print("empty fields detected")
+            }
+        }
     }
     //MARK: viewdidload function
     
