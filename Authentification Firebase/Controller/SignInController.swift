@@ -90,6 +90,7 @@ class SignInController: UIViewController
         textfield.attributedPlaceholder = mytitle
         textfield.clearButtonMode = .always
         textfield.tintColor = .white
+        textfield.addTarget(self, action: #selector(usernamepressed), for: .editingChanged)
         textfield.textColor = .init(white: 1, alpha: 0.80)
         
         return textfield
@@ -103,6 +104,7 @@ class SignInController: UIViewController
         textfield.attributedPlaceholder = mytitle
         textfield.clearButtonMode = .always
         textfield.tintColor = .white
+        textfield.addTarget(self, action: #selector(profilenamepressed), for: .editingChanged)
         textfield.textColor = .init(white: 1, alpha: 0.80)
         
         return textfield
@@ -118,6 +120,7 @@ class SignInController: UIViewController
         textfield.tintColor = .white
         textfield.textContentType = .password
         textfield.isSecureTextEntry = true
+        textfield.addTarget(self, action: #selector(passpressed), for: .editingChanged)
         textfield.textColor = .init(white: 1, alpha: 0.80)
         return textfield
     }()
@@ -232,9 +235,10 @@ class SignInController: UIViewController
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("CREATE ACCOUNT", for: .normal)
-        button.backgroundColor = .white
+        button.backgroundColor = .init(white: 0.95, alpha: 1)
         button.setTitleColor(.systemBlue, for: .normal)
         button.layer.cornerRadius = 5
+        button.isEnabled = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true
         button.addTarget(self, action: #selector(createnow), for: .touchUpInside)
@@ -257,6 +261,34 @@ class SignInController: UIViewController
     
     
     //MARK: objc functions
+    
+    @objc func usernamepressed()
+    {
+       myvalidation()
+    }
+    @objc func profilenamepressed()
+    {
+        myvalidation()
+    }
+    
+    @objc func passpressed()
+    {
+        myvalidation()
+    }
+    
+    func myvalidation()
+    {
+       if validation.isvalid.signupvalidation(username: usernameprofilename.text!, email:usernamatextfield.text! , password: passwordTextfield.text!)
+        {
+            createAccount.isEnabled = true
+            createAccount.backgroundColor = .white
+        }else
+       {
+        createAccount.isEnabled = false
+        createAccount.backgroundColor = .init(white: 0.95, alpha: 1)
+        }
+        
+    }
     
     @objc func loginAccount()
     {

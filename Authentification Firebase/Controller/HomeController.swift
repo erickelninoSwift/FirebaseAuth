@@ -18,7 +18,11 @@ class HomeController:UIViewController
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .init(white: 1, alpha: 0.89)
+        label.textColor = .white
+        label.tintColor = .white
+        label.text = "WELCOME"
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textAlignment = .center
         label.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         return label
@@ -35,7 +39,8 @@ class HomeController:UIViewController
         {
             DispatchQueue.main.async {
                 let navControler = UINavigationController(rootViewController: LoginController())
-                self.navigationController?.navigationBar.barStyle = .black
+                navControler.navigationBar.barStyle = .black
+                navControler.modalPresentationStyle = .fullScreen
                 self.present(navControler, animated: true, completion: nil)
             }
             
@@ -48,17 +53,34 @@ class HomeController:UIViewController
     func configureviewComponent()
     {
         self.view.backgroundColor = .systemBlue
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.navigationItem.title = "Firebase Login"
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "baseline_arrow_back_white_24dp"), style: .plain, target: self, action: #selector(back))
+        navigationController?.navigationBar.barStyle = .black
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "baseline_arrow_back_white_24dp"), style: .plain, target: self, action: #selector(signout))
+      
         navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.title = "Firebase Login"
+        view.addSubview(welcome)
+        welcome.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        welcome.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 25).isActive = true
+        welcome.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25).isActive = true
     }
     
     
-    @objc func back()
+    @objc func signout()
     {
-        print("You have pressed the back button")
+        do
+        {
+            try Auth.auth().signOut()
+            
+        }catch let error as NSError
+        {
+            print("there was an error \(error.localizedDescription)")
+        }
+    }
+    
+    func getAllusers()
+    {
+        
     }
  
 }

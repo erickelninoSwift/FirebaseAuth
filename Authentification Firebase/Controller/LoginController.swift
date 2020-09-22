@@ -13,6 +13,7 @@ class LoginController : UIViewController
 {
     
     
+    var isvalid:Bool = false
     //MARK: separator
     var separatorView : UIView =
     {
@@ -67,6 +68,7 @@ class LoginController : UIViewController
         textfield.clearButtonMode = .always
         textfield.tintColor = .white
         textfield.textColor = .init(white: 1, alpha: 0.80)
+       
         
         return textfield
     }()
@@ -82,6 +84,7 @@ class LoginController : UIViewController
         textfield.textContentType = .password
         textfield.isSecureTextEntry = true
         textfield.textColor = .init(white: 1, alpha: 0.80)
+         
         return textfield
     }()
  
@@ -166,9 +169,10 @@ class LoginController : UIViewController
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("LOG IN", for: .normal)
-        button.backgroundColor = .white
+        button.backgroundColor = .init(white: 0.95, alpha: 1)
         button.setTitleColor(.systemBlue, for: .normal)
         button.layer.cornerRadius = 5
+        button.isEnabled = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true
         button.addTarget(self, action: #selector(loginnow), for: .touchUpInside)
@@ -184,6 +188,7 @@ class LoginController : UIViewController
         let firstring = NSMutableAttributedString(string: "Don't have an account? ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),NSAttributedString.Key.foregroundColor: UIColor.white])
         firstring.append(NSAttributedString(string: "Sign Up", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white]))
         button.setAttributedTitle(firstring, for: .normal)
+        
         button.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
         
         return button
@@ -191,11 +196,37 @@ class LoginController : UIViewController
     
     
     //MARK: objc functions
+    @objc func usernamepressed()
+    {
+       loginvalidation()
+        
+    }
+    
+    @objc func passwordpressed()
+    {
+      loginvalidation()
+    }
     
     @objc func createAccount()
     {
        let createAccount = SignInController()
         navigationController?.pushViewController(createAccount, animated: true)
+    }
+    
+    func loginvalidation()
+    {
+        isvalid = validation.isvalid.loginvalidation(username: usernamatextfield.text!, password: passwordTextfield.text!)
+        
+        if isvalid
+        {
+            loginButtton.isEnabled = true
+            loginButtton.backgroundColor = .white
+        }else
+        {
+            loginButtton.isEnabled = false
+            loginButtton.backgroundColor = .init(white: 0.87, alpha: 1)
+        }
+        
     }
     
     @objc func loginnow()
@@ -228,6 +259,7 @@ class LoginController : UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        textfieldmethodes()
     }
     
     //MARK: configuration UI
@@ -266,4 +298,12 @@ class LoginController : UIViewController
         createaccount.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
     }
+    
+    func textfieldmethodes()
+    {
+        usernamatextfield.addTarget(self, action: #selector(usernamepressed), for: .editingChanged)
+        passwordTextfield.addTarget(self, action: #selector(passwordpressed), for: .editingChanged)
+        
+    }
+    
 }
